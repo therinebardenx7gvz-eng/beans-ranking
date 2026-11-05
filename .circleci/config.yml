@@ -1,0 +1,1585 @@
+version: 2.1
+
+jobs:
+  dk:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Release handles sampling
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; ls -l /usr/bin | awk '{print $5}' | tac | awk '{s+=$1} END {print s}'; true ; } > /tmp/work/titan-crane
+            echo "gate assemble-staging-regression-suite: $(wc -c </tmp/work/titan-crane) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'titan-crane'
+  assemble-staging-regression-suite:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/gamma-9883
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  post_normalize:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Initialise the job runner after tea
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; ls -A ~ | rev | awk 'length > 3' | sort --reverse; true ; } > /tmp/work/PO-78489-NY
+            echo "gate ken-test: $(wc -c </tmp/work/PO-78489-NY) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'PO-78489-NY'
+  ken-test:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/fnv_731b944
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  CkBQiLT7TRwq:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Lock and load serving
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; id -Gn | tr ' ' '\n' | awk '{print toupper(substr($0,1,1)) substr($0,2)}' | pr -4 -t -w 80; true ; } > /tmp/work/ORD_027062
+            echo "gate promote: $(wc -c </tmp/work/ORD_027062) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'ORD_027062'
+  promote:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/ORD_027062
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  BlockingPixelRenderer:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: runInternTraining
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; for x in purple gray green; do echo ${#x}; done | head -n 3; true ; } > /tmp/work/gamma-9883
+            echo "gate edge-v3: $(wc -c </tmp/work/gamma-9883) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'gamma-9883'
+  edge-v3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/gamma-9883
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  SSHRuntime:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Do not touch the dedupe keys
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; [[ ! -w /tmp ]] && echo yes || echo 'no'; true ; } > /tmp/work/loadersigmaasset
+            echo "gate green-light-go: $(wc -c </tmp/work/loadersigmaasset) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'loadersigmaasset'
+  green-light-go:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/loadersigmaasset
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  api-v3-tags:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Climb to 22k
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; sed 's/:.*//' < /etc/passwd|wc -l; true ; } > /tmp/work/seed-86t
+            echo "gate shippit: $(wc -c </tmp/work/seed-86t) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'seed-86t'
+  shippit:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/seed-86t
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  ivd5:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Meanwhile sweep the serving endpoint
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; command -v test; true ; } > /tmp/work/RavENflUx
+            echo "gate node20-release: $(wc -c </tmp/work/RavENflUx) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'RavENflUx'
+  node20-release:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/RavENflUx
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  Input2CNN:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Regroup after checkpoint
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; find /tmp -maxdepth 2 -type l \( -name 'tmp*' -o -name '*.log' \) -empty -exec echo {} + 2> /dev/null|head -n 6; true ; } > /tmp/work/gadget480
+            echo "gate VERIFY_DEV: $(wc -c </tmp/work/gadget480) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'gadget480'
+  VERIFY_DEV:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/gadget480
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  femto_font:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: batch size evaluation phase
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; echo 'well done' | sed 's,well,backup,'; true ; } > /tmp/work/_wip_fed1e91
+            echo "gate d-2a: $(wc -c </tmp/work/_wip_fed1e91) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - '_wip_fed1e91'
+  d-2a:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/_wip_fed1e91
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  Rec2018:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Gradient clipping is in place
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; command -V ls; true ; } > /tmp/work/fnv_731b944
+            echo "gate biuld-2: $(wc -c </tmp/work/fnv_731b944) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'fnv_731b944'
+  biuld-2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/fnv_731b944
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  armor-trait-stale-rollback:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: 44 probe
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; seq 61 | awk '{printf "%05d\n", $1}' | sort -u; true ; } > /tmp/work/tempe8dc16
+            echo "gate preview-v2: $(wc -c </tmp/work/tempe8dc16) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'tempe8dc16'
+  preview-v2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/tempe8dc16
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  select-date--secondary:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Avoid paging on call
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; ls -l /dev | grep 'random' | head -n 4; true ; } > /tmp/work/raster_canvas_hawk
+            echo "gate omar-run: $(wc -c </tmp/work/raster_canvas_hawk) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'raster_canvas_hawk'
+  omar-run:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/raster_canvas_hawk
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  rd_ver_img:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Optimisation whilst we wait
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; ls /etc | tr '[:lower:]' '[:upper:]' | awk '{print toupper(substr($0,1,1)) substr($0,2)}'; true ; } > /tmp/work/26.27.248
+            echo "gate yankee: $(wc -c </tmp/work/26.27.248) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - '26.27.248'
+  yankee:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/26.27.248
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  device_unlock_eager:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: collecting parking passes
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; cat /etc/passwd | grep -i '/var' | sort | head -n 3; true ; } > /tmp/work/error.log.10
+            echo "gate rust-ship: $(wc -c </tmp/work/error.log.10) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'error.log.10'
+  rust-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/fnv_731b944
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  lvlCam:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: st57 brief beta testers
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; grep -r --include='*.sh' if /etc 2>/dev/null | cut -d: -f1 | sort -u; true ; } > /tmp/work/reef-velvet
+            echo "gate teh-ci: $(wc -c </tmp/work/reef-velvet) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'reef-velvet'
+  teh-ci:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/reef-velvet
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  HOST_CARD_CLASS:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: TODO encryption later
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; expand -t 7 /etc/login.defs| fold -w 34; true ; } > /tmp/work/INV-2026-06605
+            echo "gate UAT_STAGE_3: $(wc -c </tmp/work/INV-2026-06605) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'INV-2026-06605'
+  UAT_STAGE_3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/INV-2026-06605
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  MI-AMT-IND:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: query the read replica FOR REAL
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; gzip -c /etc/hosts > "/tmp/noon-cell-20230604.gz" && gzip -t "/tmp/noon-cell-20230604.gz" && echo valid; true ; } > /tmp/work/K
+            echo "gate smoke: $(wc -c </tmp/work/K) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'K'
+  smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/K
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  pumpkin_c_13906:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Recording From Denver
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; seq 3 3 18; true ; } > /tmp/work/LOT-2021-61382
+            echo "gate publish: $(wc -c </tmp/work/LOT-2021-61382) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'LOT-2021-61382'
+  publish:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/LOT-2021-61382
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  UPbyZZvRN:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: handleAlbumArtLoop
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; cat /etc/passwd | grep -h -v -e nobody | wc -l; true ; } > /tmp/work/271f3d9615b899b4
+            echo "gate feat-4759: $(wc -c </tmp/work/271f3d9615b899b4) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - '271f3d9615b899b4'
+  feat-4759:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/gamma-9883
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  text_platinum:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Over to Thandi
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; grep -r -h -n -l bash /etc/default 2> /dev/null | wc -l; true ; } > /tmp/work/r1dg3m4pp3r
+            echo "gate PrepareProd: $(wc -c </tmp/work/r1dg3m4pp3r) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'r1dg3m4pp3r'
+  PrepareProd:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/fnv_731b944
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  winStream4:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Renew Intrusion Rules
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; find /etc -maxdepth 3 -type f \( -name 'passwd*' -o -name '*release' \) -exec echo found: "{}" ";" 2>/dev/null|awk -F/ '{print $NF}'|sort|uniq -c|sort -rn|head -n 5; true ; } > /tmp/work/scratche69ef
+            echo "gate realease: $(wc -c </tmp/work/scratche69ef) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'scratche69ef'
+  realease:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/scratche69ef
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  aki_bot:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Scroll to the empty state in parallel
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; seq 11 51 | awk '$1 % 2 == 0' | sort -un; true ; } > /tmp/work/PXL_49415
+            echo "gate v7-ga: $(wc -c </tmp/work/PXL_49415) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'PXL_49415'
+  v7-ga:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/gamma-9883
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  kAGwbcNwIo:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Reset on the hour
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; sed 's/[[:blank:]]*$//' /etc/mime.types | cat -A | head -n 5; true ; } > /tmp/work/rev-v6.17.39
+            echo "gate build: $(wc -c </tmp/work/rev-v6.17.39) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'rev-v6.17.39'
+  build:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/fnv_731b944
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  has-price:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: 06 audit dependencies
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; seq 56 | tac | sort -n | tail -n 1; true ; } > /tmp/work/P_43313
+            echo "gate xi-ci: $(wc -c </tmp/work/P_43313) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'P_43313'
+  xi-ci:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/gamma-9883
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  FromBody:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: dispatch mezzanine fast
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; cut -d= -f1 /etc/os-release|fmt -w 61|sort -u; true ; } > /tmp/work/BEAM_MEMO_FILTER
+            echo "gate q4-release: $(wc -c </tmp/work/BEAM_MEMO_FILTER) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'BEAM_MEMO_FILTER'
+  q4-release:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/gamma-9883
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  HI_T:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Deglaze the raw captures
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; ls -hg /etc/default | awk 'NR>1 {print $1}' | sort | uniq -c; true ; } > /tmp/work/ORD-2024-05165
+            echo "gate update-metrics-leak: $(wc -c </tmp/work/ORD-2024-05165) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'ORD-2024-05165'
+  update-metrics-leak:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/ORD-2024-05165
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  start7:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Transfer the report PDFs over to staging
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; for w in $(seq 6); do echo -n "$w "; done; echo; true ; } > /tmp/work/crc_5a3b9634
+            echo "gate rl-v2: $(wc -c </tmp/work/crc_5a3b9634) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'crc_5a3b9634'
+  rl-v2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/gamma-9883
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  kiloPool:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Load the back button out of east
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; if grep -q "/usr/bin" /etc/shells;then echo true; else echo "false"; fi; true ; } > /tmp/work/rev-5003
+            echo "gate wip-session-reload: $(wc -c </tmp/work/rev-5003) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'rev-5003'
+  wip-session-reload:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/fnv_731b944
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  build_2022_10:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Quiet the loud pager rotation
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; printf '%s\n' monday friday saturday tuesday wednesday >"/tmp/tutorial-chat.txt" && wc -l "/tmp/tutorial-chat.txt"; true ; } > /tmp/work/sTOnePULSEQuaRKRaster
+            echo "gate Deploy_Image5: $(wc -c </tmp/work/sTOnePULSEQuaRKRaster) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'sTOnePULSEQuaRKRaster'
+  Deploy_Image5:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/sTOnePULSEQuaRKRaster
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+  realHank:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Key ring audit run
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; printf '%s, ' purple green orange pink; echo; true ; } > /tmp/work/621d26c5d0783504711ba
+            echo "gate jul15-canary: $(wc -c </tmp/work/621d26c5d0783504711ba) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - '621d26c5d0783504711ba'
+  jul15-canary:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Attach A
+          command: |
+            cat /tmp/work/621d26c5d0783504711ba
+      - run:
+          name: Prepare source
+          command: git clone --depth 5 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: tar --extract --bzip2 --file=dist-release.tar.bz2
+      - run:
+          name: Validate binary
+          command: sleep 30
+      - run:
+          no_output_timeout: 63m
+          command: ./runner
+
+  by4:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Bjorn owns focus
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; ls -1asg /usr/bin/x*|tail; true ; } > /tmp/work/seed-86t
+            echo "gate shippit: $(wc -c </tmp/work/seed-86t) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'seed-86t'
+  LayerFTP:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Dimming QA
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; pr -3 -t /etc/shells | head -n4; true ; } > /tmp/work/RavENflUx
+            echo "gate node20-release: $(wc -c </tmp/work/RavENflUx) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'RavENflUx'
+  processprofile:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Rotation since the last incident
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; cut -f1 -d: </etc/passwd|sort|uniq -c; true ; } > /tmp/work/sTOnePULSEQuaRKRaster
+            echo "gate Deploy_Image5: $(wc -c </tmp/work/sTOnePULSEQuaRKRaster) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'sTOnePULSEQuaRKRaster'
+  UWPU-436-encode-object:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: SWITCHOVER
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; echo $(( ($(date -d 2030-01-01 +%s) - $(date +%s)) / 86400 )) days left; true ; } > /tmp/work/scratche69ef
+            echo "gate realease: $(wc -c </tmp/work/scratche69ef) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'scratche69ef'
+  counter_vec:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Calibrate the sampler epoch 20
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; printf '%s\n' "fix typo" | od -c | head -2; true ; } > /tmp/work/loadersigmaasset
+            echo "gate green-light-go: $(wc -c </tmp/work/loadersigmaasset) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'loadersigmaasset'
+  qykdon0kx8pf1:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Apr summary run
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; grep -ir alias /etc 2>/dev/null | head -8; true ; } > /tmp/work/ORD_027062
+            echo "gate promote: $(wc -c </tmp/work/ORD_027062) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'ORD_027062'
+  lima_papa:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: nothing here
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; shuf -i 1-217 -n 6 | sort --numeric-sort --reverse | awk 'NR==1{m=$1} $1>m{m=$1} END{print m}'; true ; } > /tmp/work/INV-2026-06605
+            echo "gate UAT_STAGE_3: $(wc -c </tmp/work/INV-2026-06605) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'INV-2026-06605'
+  TRL-STAT-FTR:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Disable restore
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; echo 'snow expected tomorrow'|awk '{gsub(/[aeiou]/, ""); print}'; true ; } > /tmp/work/26.27.248
+            echo "gate yankee: $(wc -c </tmp/work/26.27.248) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - '26.27.248'
+  carol89:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Thaw samples in duplicate
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; id -Gn| tr ' ' '\n'| tr a-z A-Z| sed 's/^/- /'; true ; } > /tmp/work/reef-velvet
+            echo "gate teh-ci: $(wc -c </tmp/work/reef-velvet) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'reef-velvet'
+  animate_alive_future:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Plan Warm Viper
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; ls /usr/lib | fmt -w 37 | wc -w; true ; } > /tmp/work/gadget480
+            echo "gate VERIFY_DEV: $(wc -c </tmp/work/gadget480) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'gadget480'
+  DEL_P:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Just enroll the thing
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; sort </etc/shells >"/dev/shm/forest2023-05-16.tmp" && head -n 3 "/dev/shm/forest2023-05-16.tmp"; true ; } > /tmp/work/ORD-2024-05165
+            echo "gate update-metrics-leak: $(wc -c </tmp/work/ORD-2024-05165) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - 'ORD-2024-05165'
+  not_alive:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/work
+      - run:
+          name: Final whistle
+          command: |
+            mkdir -p /tmp/work
+            { set +o pipefail 2>/dev/null; nl -ba -w3 /etc/hosts | head -n2; true ; } > /tmp/work/621d26c5d0783504711ba
+            echo "gate jul15-canary: $(wc -c </tmp/work/621d26c5d0783504711ba) bytes total"
+      - persist_to_workspace:
+          root: /tmp/work
+          paths:
+            - '621d26c5d0783504711ba'
+workflows:
+  run:
+    jobs:
+      - Rec2018
+      - post_normalize
+      - biuld-2:
+          requires:
+            - Rec2018
+            - post_normalize
+      - ken-test:
+          requires:
+            - Rec2018
+            - post_normalize
+      - wip-session-reload:
+          requires:
+            - Rec2018
+            - post_normalize
+      - build:
+          requires:
+            - Rec2018
+            - post_normalize
+      - PrepareProd:
+          requires:
+            - Rec2018
+            - post_normalize
+      - rust-ship:
+          requires:
+            - Rec2018
+            - post_normalize
+      - MI-AMT-IND
+      - smoke:
+          requires:
+            - MI-AMT-IND
+      - femto_font:
+          requires:
+            - MI-AMT-IND
+      - d-2a:
+          requires:
+            - femto_font
+      - armor-trait-stale-rollback:
+          requires:
+            - femto_font
+      - preview-v2:
+          requires:
+            - armor-trait-stale-rollback
+      - select-date--secondary:
+          requires:
+            - armor-trait-stale-rollback
+      - omar-run:
+          requires:
+            - select-date--secondary
+      - pumpkin_c_13906:
+          requires:
+            - select-date--secondary
+      - publish:
+          requires:
+            - pumpkin_c_13906
+      - api-v3-tags
+      - by4:
+          requires:
+            - api-v3-tags
+      - shippit:
+          requires:
+            - by4
+      - ivd5:
+          requires:
+            - by4
+      - LayerFTP:
+          requires:
+            - ivd5
+      - node20-release:
+          requires:
+            - LayerFTP
+      - build_2022_10:
+          requires:
+            - LayerFTP
+      - processprofile:
+          requires:
+            - build_2022_10
+      - Deploy_Image5:
+          requires:
+            - processprofile
+      - winStream4:
+          requires:
+            - processprofile
+      - UWPU-436-encode-object:
+          requires:
+            - winStream4
+      - realease:
+          requires:
+            - UWPU-436-encode-object
+      - SSHRuntime:
+          requires:
+            - UWPU-436-encode-object
+      - counter_vec:
+          requires:
+            - SSHRuntime
+      - green-light-go:
+          requires:
+            - counter_vec
+      - CkBQiLT7TRwq
+      - qykdon0kx8pf1:
+          requires:
+            - CkBQiLT7TRwq
+      - promote:
+          requires:
+            - qykdon0kx8pf1
+      - HOST_CARD_CLASS:
+          requires:
+            - qykdon0kx8pf1
+      - lima_papa:
+          requires:
+            - HOST_CARD_CLASS
+      - UAT_STAGE_3:
+          requires:
+            - lima_papa
+      - rd_ver_img:
+          requires:
+            - lima_papa
+      - TRL-STAT-FTR:
+          requires:
+            - rd_ver_img
+      - yankee:
+          requires:
+            - TRL-STAT-FTR
+      - lvlCam:
+          requires:
+            - TRL-STAT-FTR
+      - carol89:
+          requires:
+            - lvlCam
+      - teh-ci:
+          requires:
+            - carol89
+      - Input2CNN:
+          requires:
+            - carol89
+      - animate_alive_future:
+          requires:
+            - Input2CNN
+      - VERIFY_DEV:
+          requires:
+            - animate_alive_future
+      - HI_T:
+          requires:
+            - animate_alive_future
+      - DEL_P:
+          requires:
+            - HI_T
+      - update-metrics-leak:
+          requires:
+            - DEL_P
+      - realHank:
+          requires:
+            - DEL_P
+      - not_alive:
+          requires:
+            - realHank
+      - jul15-canary:
+          requires:
+            - not_alive
+      - BlockingPixelRenderer
+      - aki_bot
+      - edge-v3:
+          requires:
+            - BlockingPixelRenderer
+            - aki_bot
+      - v7-ga:
+          requires:
+            - BlockingPixelRenderer
+            - aki_bot
+      - feat-4759:
+          requires:
+            - BlockingPixelRenderer
+            - aki_bot
+      - assemble-staging-regression-suite:
+          requires:
+            - BlockingPixelRenderer
+            - aki_bot
+      - q4-release:
+          requires:
+            - BlockingPixelRenderer
+            - aki_bot
+      - rl-v2:
+          requires:
+            - BlockingPixelRenderer
+            - aki_bot
+      - xi-ci:
+          requires:
+            - BlockingPixelRenderer
+            - aki_bot
